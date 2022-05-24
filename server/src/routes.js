@@ -1,9 +1,9 @@
+import createUser from "./createUser.js";
+
 const routes = (app) => {
-    app.post('/api/user',
-        async (req, res) => {
-            const user = req.body
-        }
-    )
+    app.get('/api/healthcheck', (req, res) => res.json({status: "OK"}))
+    app.post('/api/user', createUser)
+
 }
 
 export default routes;
