@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SignUp.scss"
 
 export default function SignUp() {
     const [username, setUsername] = useState("");
@@ -6,9 +7,19 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
+        const userData = { username, email, password };
+        fetch("http://localhost:3030/api/user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        })
+            .then(() => console.log("User is added"))
+            .catch((err) => console.error(err));
     };
     return (
-        <div>
+        <div className="form-container">
             <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
                 <input
