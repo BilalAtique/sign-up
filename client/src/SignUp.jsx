@@ -6,25 +6,24 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPending, setIsPending] = useState(false);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsPending(true);
         const userData = { username, email, password };
-        fetch("http://localhost:3030/api/user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-        })
-            .then(() => {
-                console.log("User is added");
-                setIsPending(false);
+        try {
+            const user = await fetch("http://localhost:3030/api/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
             })
-            .catch((err) => {
-                console.error(err);
-                setIsPending(false);
-            });
+            console.log(await user.json());
+            setIsPending(false);
+        } catch (error) {
+            setIsPending(false);
+            console.log(error);
+        }
     };
     return (
         <div className="form-container">

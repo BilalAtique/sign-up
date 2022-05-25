@@ -11,11 +11,16 @@ const createUser = async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = await hashPassword(password);
     const sql = `INSERT INTO user (username, email, password) VALUES ('${username}', '${email}', '${hashedPassword}')`;
+
     con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("1 record inserted");
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            console.log("1 record inserted");
+            res.send(result);
+        }
     });
-    res.send(user);
 };
 
 export default createUser;
