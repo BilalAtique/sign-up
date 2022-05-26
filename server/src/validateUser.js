@@ -20,7 +20,7 @@ const validateUser = async (req, res, next) => {
         next();
     } catch (error) {
         console.log(error);
-        res.send(handleError(error));
+        res.status(400).send(handleError(error));
     }
 };
 

@@ -23,6 +23,14 @@
             font-weight: bolder;
         }
 
+        .error, .success-msg{
+            font-size: 18px;
+            font-weight: bold;
+            color: #F47C7C;
+            text-align: center;
+            margin-top: 10px;
+        }
+
         form {
             display: flex;
             flex-direction: column;

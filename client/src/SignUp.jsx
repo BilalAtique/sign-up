@@ -6,8 +6,12 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState("");
+    const [successMsg, setsuccessMsg] = useState("");
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setsuccessMsg("");
         setIsPending(true);
         const userData = { username, email, password };
         try {
@@ -17,11 +21,16 @@ export default function SignUp() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(userData),
-            })
-            console.log(await user.json());
+            });
+            const data = await user.json();
+            if (data.status === "error") throw data;
             setIsPending(false);
+            console.log(data.message);
+            setsuccessMsg(data.message);
         } catch (error) {
             setIsPending(false);
+            console.log(error.message);
+            setError(error.message);
             console.log(error);
         }
     };
@@ -29,6 +38,9 @@ export default function SignUp() {
         <div className="form-container">
             <div className="container">
                 <h1>Sign Up</h1>
+                {error && <div className="error">{error}</div>}
+                {successMsg && <div className="success-msg">{successMsg}</div>}
+
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -52,7 +64,11 @@ export default function SignUp() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {!isPending && <button type="submit">Register</button>}
-                    {isPending && <button disabled type="submit">...</button>}
+                    {isPending && (
+                        <button disabled type="submit">
+                            ...
+                        </button>
+                    )}
                 </form>
             </div>
         </div>

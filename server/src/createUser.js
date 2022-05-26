@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
 
     con.query(sql, function (err, result) {
         if (err) {
-            res.send({
+            res.status(400).send({
                 status: "error",
                 message: "Email already exists"
             });
@@ -22,7 +22,7 @@ const createUser = async (req, res) => {
             console.log("1 record inserted");
             res.send({
                 status: "ok", 
-                message: "User registered successfully"
+                message: "You have registered successfully."
             });
         }
     });
