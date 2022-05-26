@@ -4,7 +4,14 @@ const userSchema = joi.object({
     username: joi.string().min(3).max(30).required(),
     email: joi.string().email().required(),
     password: joi.string().min(6).required(),
-})
+});
+
+const handleError = (err) => {
+    return {
+        status: "error",
+        message: err.details[0].message,
+    };
+};
 
 const validateUser = async (req, res, next) => {
     try {
@@ -13,8 +20,8 @@ const validateUser = async (req, res, next) => {
         next();
     } catch (error) {
         console.log(error);
-        res.send(error);
+        res.send(handleError(error));
     }
-}
+};
 
 export default validateUser;
